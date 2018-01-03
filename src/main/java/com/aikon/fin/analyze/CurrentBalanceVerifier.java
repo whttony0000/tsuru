@@ -1,4 +1,4 @@
-package com.aikon.fin.analize;
+package com.aikon.fin.analyze;
 
 import com.aikon.fin.entity.CurrentBalance;
 import lombok.extern.slf4j.Slf4j;

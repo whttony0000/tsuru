@@ -1,4 +1,4 @@
-package com.aikon.fin.analize;
+package com.aikon.fin.analyze;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;

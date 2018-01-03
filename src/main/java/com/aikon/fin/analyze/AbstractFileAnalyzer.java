@@ -1,4 +1,4 @@
-package com.aikon.fin.analize;
+package com.aikon.fin.analyze;
 
 import com.aikon.fin.dao.CurrentBalanceExtendMapper;
 import com.aikon.fin.dao.SqlSessionFactoryUtil;
