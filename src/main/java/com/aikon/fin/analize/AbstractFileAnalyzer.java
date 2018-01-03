@@ -21,37 +21,16 @@ import java.util.List;
 @Slf4j
 public abstract class AbstractFileAnalyzer implements Analyzer {
 
+     boolean ifSaveCurrentBalance;
 
-    public <T> List<T> analyze(String path) {
-        File file = new File(path);
-        List<T> lineObjList = null;
-        try {
-            lineObjList = Files.readLines(file, Charsets.UTF_8, new LineProcessor<List<T>>() {
-                List<T> lineObjCollection = Lists.newLinkedList();
-
-                public boolean processLine(String line) {
-                    if (StringUtils.isBlank(line)) {
-                        return false;
-                    }
-                    T lineObj = handleLine(line);
-                    if (lineObj == null) {
-                        return true;
-                    }
-                    lineObjCollection.add(lineObj);
-                    return true;
-                }
-
-                public List<T> getResult() {
-                    return lineObjCollection;
-                }
-            });
-        } catch (IOException e) {
-            log.info("Error Processing Line {}",e);
-        }
-        return lineObjList;
+    public AbstractFileAnalyzer(boolean ifSaveCurrentBalance) {
+        this.ifSaveCurrentBalance = ifSaveCurrentBalance;
     }
 
     void saveCurrentBalance(CurrentBalance currentBalance) {
+        if (!this.ifSaveCurrentBalance) {
+            return;
+        }
         SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
         try{
 

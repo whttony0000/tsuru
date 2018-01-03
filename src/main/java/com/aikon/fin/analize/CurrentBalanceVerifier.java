@@ -16,14 +16,14 @@ public class CurrentBalanceVerifier {
 
     public static void main(String[] args) {
         CurrentBalanceVerifier verifier = new CurrentBalanceVerifier();
-        verifier.verify("csv/dpm_2018_01_01.csv","csv/sina_2018_01_01.csv");
+        verifier.verify("csv/20180102/dpm.csv", "csv/20180102/sina.csv");
     }
 
 
 
     public void verify(String dpmFilePath, String sinaFilePath) {
-        Analyzer dpmFileAnalyzer = new DpmFileAnalyzer();
-        Analyzer sinaFileAnalyzer = new SinaFileAnalyzer();
+        Analyzer dpmFileAnalyzer = new DpmFileAnalyzer(false);
+        Analyzer sinaFileAnalyzer = new SinaFileAnalyzer(false);
 
         List<CurrentBalance> dpmCurrentBalances = null;
         List<CurrentBalance> sinaCurrentBalances = null;
@@ -36,6 +36,6 @@ public class CurrentBalanceVerifier {
         List<CurrentBalance> finalSinaCurrentBalances = sinaCurrentBalances;
         List<CurrentBalance> finalDpmCurrentBalances = dpmCurrentBalances;
         List<CurrentBalance> intersection = finalSinaCurrentBalances.stream().filter(dpmItem -> !finalDpmCurrentBalances.contains(dpmItem)).collect(Collectors.toList());
-        intersection.stream().forEach(item -> System.out.println(item.getMemberId() + " " + item.getBalance()));
+        intersection.stream().forEach(item -> log.info(item.getMemberId() + " " + item.getBalance()));
     }
 }

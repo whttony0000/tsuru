@@ -11,6 +11,10 @@ import java.util.List;
  * @author haitao.wang
  */
 public class DpmFileAnalyzer extends AbstractFileAnalyzer {
+    public DpmFileAnalyzer(boolean ifSave) {
+        super(ifSave);
+    }
+
     public CurrentBalance handleLine(String line) {
         line = line.replaceAll("[\"]", "");
         List<String> words = Splitter.on(",").splitToList(line);
@@ -25,7 +29,7 @@ public class DpmFileAnalyzer extends AbstractFileAnalyzer {
         currentBalance.setBalance(balance);
         currentBalance.setType(CurrentBalanceTypeEnum.DPM.getCode());
 
-//        saveCurrentBalance(currentBalance);
+        saveCurrentBalance(currentBalance);
         return currentBalance;
     }
 
