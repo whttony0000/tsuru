@@ -1,19 +1,12 @@
 package com.aikon.fin.analize;
 
 import com.aikon.fin.dao.CurrentBalanceExtendMapper;
-import com.aikon.fin.entity.CurrentBalance;
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.google.common.io.Files;
-import com.google.common.io.LineProcessor;
 import com.aikon.fin.dao.SqlSessionFactoryUtil;
+import com.aikon.fin.entity.CurrentBalance;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author haitao.wang
@@ -21,10 +14,20 @@ import java.util.List;
 @Slf4j
 public abstract class AbstractFileAnalyzer implements Analyzer {
 
-     boolean ifSaveCurrentBalance;
+    boolean ifSaveCurrentBalance;
+
+    static final Pattern LINE_PATTERN = Pattern.compile("(\\t)?(\\d+\\.?\\d+,)+(\\d+\\.?\\d+)$");
 
     public AbstractFileAnalyzer(boolean ifSaveCurrentBalance) {
         this.ifSaveCurrentBalance = ifSaveCurrentBalance;
+    }
+
+    public String preHandleLine(String line) {
+        return line.replaceAll("[\"]", "");
+    }
+
+    public boolean checkLine(String line) {
+        return LINE_PATTERN.matcher(line).matches();
     }
 
     void saveCurrentBalance(CurrentBalance currentBalance) {
@@ -32,7 +35,7 @@ public abstract class AbstractFileAnalyzer implements Analyzer {
             return;
         }
         SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-        try{
+        try {
 
             CurrentBalanceExtendMapper currentBalanceExtendMapper = sqlSession.getMapper(CurrentBalanceExtendMapper.class);
             currentBalanceExtendMapper.insertSelective(currentBalance);

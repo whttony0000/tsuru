@@ -16,7 +16,6 @@ public class DpmFileAnalyzer extends AbstractFileAnalyzer {
     }
 
     public CurrentBalance handleLine(String line) {
-        line = line.replaceAll("[\"]", "");
         List<String> words = Splitter.on(",").splitToList(line);
 
         BigDecimal balance = new BigDecimal(words.get(0));

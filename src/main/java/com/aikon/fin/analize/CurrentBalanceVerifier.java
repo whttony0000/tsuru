@@ -28,8 +28,8 @@ public class CurrentBalanceVerifier {
         List<CurrentBalance> dpmCurrentBalances = null;
         List<CurrentBalance> sinaCurrentBalances = null;
         try {
-            dpmCurrentBalances = dpmFileAnalyzer.analyze(Resources.getResourceAsFile(dpmFilePath).getPath());
             sinaCurrentBalances = sinaFileAnalyzer.analyze(Resources.getResourceAsFile(sinaFilePath).getPath());
+            dpmCurrentBalances = dpmFileAnalyzer.analyze(Resources.getResourceAsFile(dpmFilePath).getPath());
         } catch (IOException e) {
             log.info("Error Load Files {}",e);
         }

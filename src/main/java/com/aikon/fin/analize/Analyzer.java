@@ -17,6 +17,10 @@ public interface Analyzer {
 
     <T> T handleLine(String line);
 
+    boolean checkLine(String line);
+
+    String preHandleLine(String line);
+
     default <T> List<T> analyze(String path) throws IOException {
         File file = new File(path);
         List<T> lineObjList;
@@ -25,7 +29,11 @@ public interface Analyzer {
 
             public boolean processLine(String line) {
                 if (StringUtils.isBlank(line)) {
-                    return false;
+                    return true;
+                }
+                line = preHandleLine(line);
+                if (!checkLine(line)) {
+                    return true;
                 }
                 T lineObj = handleLine(line);
                 if (lineObj == null) {
@@ -41,4 +49,5 @@ public interface Analyzer {
         });
         return lineObjList;
     }
+
 }
