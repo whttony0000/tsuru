@@ -1,6 +1,7 @@
 package com.aikon.fin.plugin;
 
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -13,21 +14,23 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author haitao.wang
+ *
+ * 执行器拦截器.
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
                 RowBounds.class, ResultHandler.class})
 })
-@Slf4j
 public class SqlCostTimePlugin implements Interceptor {
+
+    Log logger = LogFactory.getLog(this.getClass());
+
+    @Override
     public Object intercept(Invocation invocation) throws Throwable {
         MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
         Object param = null;
@@ -43,7 +46,16 @@ public class SqlCostTimePlugin implements Interceptor {
         long end = System.currentTimeMillis();
         long timeCost = end - start;
         String msg = getMsg(configuration, boundSql, sqlId, timeCost);
-        log.info(msg);
+        if (returnVal == null) {
+            msg += " :null";
+        }
+        if (returnVal instanceof Number) {
+            msg += " :" + returnVal;
+        }
+        if (returnVal instanceof Collection) {
+            msg += " :" + ((Collection) returnVal).size();
+        }
+        logger.info(msg);
         return returnVal;
     }
 
@@ -54,7 +66,7 @@ public class SqlCostTimePlugin implements Interceptor {
         sb.append(":");
         sb.append(sql);
         sb.append(":");
-        sb.append((timeCost * 1.0)/1000);
+        sb.append((timeCost * 1.0) / 1000);
         sb.append("s");
         return sb.toString();
     }
@@ -104,10 +116,12 @@ public class SqlCostTimePlugin implements Interceptor {
         return value;
     }
 
+    @Override
     public Object plugin(Object o) {
         return Plugin.wrap(o, this);
     }
 
+    @Override
     public void setProperties(Properties properties) {
 
     }

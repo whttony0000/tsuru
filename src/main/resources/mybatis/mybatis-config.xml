@@ -20,6 +20,8 @@
 
     <plugins>
         <plugin interceptor="com.aikon.fin.plugin.SqlCostTimePlugin"></plugin>
+        <plugin interceptor="com.aikon.fin.plugin.DecodePlugin"/>
+        <plugin interceptor="com.aikon.fin.plugin.EncodePlugin"/>
     </plugins>
 
     <environments default="dev">
