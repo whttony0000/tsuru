@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * @author haitao.wang
  */
-public class DpmFileAnalyzer extends AbstractFileAnalyzer {
-    public DpmFileAnalyzer(boolean ifSave) {
+public class XFileAnalyzer extends AbstractFileAnalyzer {
+    public XFileAnalyzer(boolean ifSave) {
         super(ifSave);
     }
 
@@ -26,7 +26,7 @@ public class DpmFileAnalyzer extends AbstractFileAnalyzer {
         CurrentBalance currentBalance = new CurrentBalance();
         currentBalance.setMemberId(memberId);
         currentBalance.setBalance(balance);
-        currentBalance.setType(CurrentBalanceTypeEnum.DPM.getCode());
+        currentBalance.setType(CurrentBalanceTypeEnum.X.getCode());
 
         saveCurrentBalance(currentBalance);
         return currentBalance;

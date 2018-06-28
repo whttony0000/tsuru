@@ -8,8 +8,8 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 public enum CurrentBalanceTypeEnum {
-    SINA(1,"sina"),
-    DPM(2, "dpm"),
+    Y(1,"Y"),
+    X(2, "X"),
     ;
 
     @Getter

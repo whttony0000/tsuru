@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * @author haitao.wang
  */
-public class SinaFileAnalyzer extends AbstractFileAnalyzer{
-    public SinaFileAnalyzer(boolean ifSave) {
+public class YFileAnalyzer extends AbstractFileAnalyzer{
+    public YFileAnalyzer(boolean ifSave) {
         super(ifSave);
     }
 
@@ -27,7 +27,7 @@ public class SinaFileAnalyzer extends AbstractFileAnalyzer{
         currentBalance.setMemberId(memberId);
         currentBalance.setBalance(balance.add(profit));
         currentBalance.setProfit(profit);
-        currentBalance.setType(CurrentBalanceTypeEnum.SINA.getCode());
+        currentBalance.setType(CurrentBalanceTypeEnum.Y.getCode());
 
         saveCurrentBalance(currentBalance);
         return currentBalance;

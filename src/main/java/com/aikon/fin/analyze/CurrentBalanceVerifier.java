@@ -16,26 +16,26 @@ public class CurrentBalanceVerifier {
 
     public static void main(String[] args) {
         CurrentBalanceVerifier verifier = new CurrentBalanceVerifier();
-        verifier.verify("csv/20180102/dpm.csv", "csv/20180102/sina.csv");
+        verifier.verify("csv/20180101/X.csv", "csv/20180101/Y.csv");
     }
 
 
 
-    public void verify(String dpmFilePath, String sinaFilePath) {
-        Analyzer dpmFileAnalyzer = new DpmFileAnalyzer(false);
-        Analyzer sinaFileAnalyzer = new SinaFileAnalyzer(false);
+    public void verify(String xFilePath, String yFilePath) {
+        Analyzer xFileAnalyzer = new XFileAnalyzer(false);
+        Analyzer yFileAnalyzer = new YFileAnalyzer(false);
 
-        List<CurrentBalance> dpmCurrentBalances = null;
-        List<CurrentBalance> sinaCurrentBalances = null;
+        List<CurrentBalance> xCurrentBalances = null;
+        List<CurrentBalance> yCurrentBalances = null;
         try {
-            sinaCurrentBalances = sinaFileAnalyzer.analyze(Resources.getResourceAsFile(sinaFilePath).getPath());
-            dpmCurrentBalances = dpmFileAnalyzer.analyze(Resources.getResourceAsFile(dpmFilePath).getPath());
+            yCurrentBalances = yFileAnalyzer.analyze(Resources.getResourceAsFile(yFilePath).getPath());
+            xCurrentBalances = xFileAnalyzer.analyze(Resources.getResourceAsFile(xFilePath).getPath());
         } catch (IOException e) {
             log.info("Error Load Files {}",e);
         }
-        List<CurrentBalance> finalSinaCurrentBalances = sinaCurrentBalances;
-        List<CurrentBalance> finalDpmCurrentBalances = dpmCurrentBalances;
-        List<CurrentBalance> intersection = finalSinaCurrentBalances.stream().filter(dpmItem -> !finalDpmCurrentBalances.contains(dpmItem)).collect(Collectors.toList());
+        List<CurrentBalance> finalYCurrentBalances = yCurrentBalances;
+        List<CurrentBalance> finalXCurrentBalances = xCurrentBalances;
+        List<CurrentBalance> intersection = finalYCurrentBalances.stream().filter(xItem -> !finalXCurrentBalances.contains(xItem)).collect(Collectors.toList());
         intersection.stream().forEach(item -> log.info(item.getMemberId() + " " + item.getBalance()));
     }
 }

@@ -31,9 +31,9 @@
             </transactionManager>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://30.0.0.12:3306/invest?useUnicode=true&amp;characterEncoding=utf-8"/>
-                <property name="username" value="admin"/>
-                <property name="password" value="adminuser"/>
+                <property name="url" value="jdbc:mysql://myHost:myPort/myDB?useUnicode=true&amp;characterEncoding=utf-8"/>
+                <property name="username" value="userName"/>
+                <property name="password" value="pwd"/>
             </dataSource>
         </environment>
     </environments>
